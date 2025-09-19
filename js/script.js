@@ -1,6 +1,6 @@
 // CONFIG: imagens devem estar em img/hk1.png ... img/hk6.png (pode ser .jpg se preferir)
 const IMAGES = [
-  '/img/hk1.png', '/img/hk2.png', '/img/hk3.png', '/img/hk4.jpg', '/img/hk5.jpg', '/img/hk6.jpg'
+  'img/hk1.png', 'img/hk2.png', 'img/hk3.png', 'img/hk4.jpg', 'img/hk5.jpg', 'img/hk6.jpg'
 ];
 
 const board = document.getElementById('board');
