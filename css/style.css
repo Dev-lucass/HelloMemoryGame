@@ -1,0 +1,222 @@
+:root {
+    --card-size: 120px;
+    --gap: 12px;
+}
+
+* {
+    box-sizing: border-box;
+    font-family: Inter, system-ui, -apple-system, 'Segoe UI', Roboto, 'Helvetica Neue', Arial;
+    -webkit-font-smoothing: antialiased;
+    -moz-osx-font-smoothing: grayscale;
+}
+
+/* ======== CORREÇÃO PARA CLIQUE EM QUALQUER PARTE DO CARD ========
+   Faz com que os filhos do .card não bloqueiem o evento de clique,
+   garantindo que o evento chegue ao .card mesmo se clicar na imagem.
+   Também define cursor e touch-action para melhor UX em touch. */
+.card,
+.card * {
+    pointer-events: none;
+}
+.card {
+    pointer-events: auto;
+    cursor: pointer;
+    touch-action: manipulation; /* melhor resposta em touch devices */
+    -webkit-tap-highlight-color: transparent;
+}
+
+/* ================================================================ */
+
+body {
+    display: flex;
+    min-height: 100vh;
+    align-items: center;
+    justify-content: center;
+    padding: 24px;
+    background: linear-gradient(135deg, #fff0f6 0%, #fef7ff 100%);
+    user-select: none;
+}
+
+.container {
+    width: 100%;
+    max-width: 920px;
+}
+
+header {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    margin-bottom: 18px;
+}
+
+h1 {
+    margin: 0;
+    font-size: 28px;
+    color: #cc3768;
+    display: flex;
+    align-items: center;
+    gap: 12px;
+}
+
+.stats {
+    display: flex;
+    gap: 12px;
+    align-items: center;
+}
+
+.stat {
+    background: #fff;
+    padding: 8px 12px;
+    border-radius: 10px;
+    box-shadow: 0 4px 10px rgba(0, 0, 0, .06);
+    font-weight: 600;
+}
+
+button#restart {
+    background: #ff6fb5;
+    color: white;
+    border: 0;
+    padding: 8px 14px;
+    border-radius: 10px;
+    font-weight: 700;
+    cursor: pointer;
+}
+
+/* grid */
+.board {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(var(--card-size), 1fr));
+    gap: var(--gap);
+    justify-items: center;
+}
+
+.card {
+    width: var(--card-size);
+    height: var(--card-size);
+    perspective: 1000px;
+    display: inline-block;
+    /* garante que o .card ocupe exatamente a área esperada */
+}
+
+.inner {
+    position: relative;
+    width: 100%;
+    height: 100%;
+    transform-style: preserve-3d;
+    transition: transform .6s ease;
+}
+
+.card.flipped .inner {
+    transform: rotateY(180deg);
+}
+
+.face {
+    position: absolute;
+    inset: 0;
+    border-radius: 12px;
+    backface-visibility: hidden;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    overflow: hidden;
+    box-shadow: 0 6px 18px rgba(17, 12, 50, .06);
+}
+
+.front {
+    background: #fff;
+    border: 4px dashed rgba(204, 55, 104, .08);
+    transform: rotateY(180deg);
+}
+
+.back {
+    background: linear-gradient(180deg, #ffdfee, #fff);
+}
+
+.back::after {
+    content: '';
+    width: 60%;
+    height: 60%;
+    background: url('data:image/svg+xml;utf8,<svg xmlns="http://www.w3.org/2000/svg" width="200" height="200" viewBox="0 0 24 24" fill="none" stroke="%23cc3768" stroke-width="1"><path d="M12 2v6M5 6v6M19 6v6M5 18h14" stroke-linecap="round" stroke-linejoin="round"/></svg>') center/contain no-repeat;
+    opacity: .12;
+}
+
+.front img {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    display: block;
+    /* importante: display:block evita gaps em imagens */
+}
+
+/* matched effect */
+.card.matched .inner {
+    transform: rotateY(180deg) scale(1.02);
+    transition: transform .4s cubic-bezier(.2, .9, .2, 1);
+}
+
+.card.matched {
+    filter: drop-shadow(0 10px 20px rgba(204, 55, 104, .12));
+}
+
+/* celebration */
+.board.winner .card {
+    animation: spin 1.6s linear infinite;
+}
+
+@keyframes spin {
+    from {
+        transform: rotateY(0) rotate(0);
+    }
+    to {
+        transform: rotateY(360deg) rotate(360deg);
+    }
+}
+
+/* overlay */
+.overlay {
+    position: fixed;
+    inset: 0;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    pointer-events: none;
+}
+
+.msg {
+    pointer-events: auto;
+    background: linear-gradient(90deg, #ffd8ea, #ffb3e0);
+    padding: 28px 36px;
+    border-radius: 16px;
+    box-shadow: 0 20px 60px rgba(204, 55, 104, .16);
+    text-align: center;
+    transform: translateY(20px);
+    opacity: 0;
+    transition: all .4s;
+}
+
+.overlay.show .msg {
+    transform: translateY(0);
+    opacity: 1;
+}
+
+.msg h2 {
+    margin: 0 0 8px 0;
+    font-size: 28px;
+    color: #6b0530;
+}
+
+.msg p {
+    margin: 0 0 16px 0;
+    color: #5a1033;
+}
+
+/* responsive tweaks */
+@media (min-width:800px) {
+    :root {
+        --card-size: 120px;
+    }
+
+    .board {
+        grid-template-columns: repeat(6, var(--card-size));
+    }
+}

@@ -1,0 +1,40 @@
+<!DOCTYPE html>
+<html lang="pt-br">
+
+<head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <link rel="shortcut icon" href="/img/iconKitty.png" type="image/x-icon">
+    <link rel="stylesheet" href="/css/style.css">
+    <title>Hello Memory</title>
+    
+</head>
+
+<body>
+    <div class="container">
+        <header>
+            <h1>🎀 Hello Memory</h1>
+            <div class="stats">
+                <div class="stat">Movimentos: <span id="moves">0</span></div>
+                <div class="stat">Pares restantes: <span id="remaining">6</span></div>
+                <button id="restart">Reiniciar</button>
+            </div>
+        </header>
+
+        <main>
+            <section id="board" class="board" aria-live="polite" aria-label="Tabuleiro da memória"></section>
+        </main>
+    </div>
+
+    <div class="overlay" id="overlay" aria-hidden="true">
+        <div class="msg" role="dialog" aria-modal="true">
+            <h2>Parabéns 🎉</h2>
+            <p>Você encontrou todos os pares!</p>
+            <button id="overlayRestart">Reiniciar</button>
+        </div>
+    </div>
+
+   <script src="/js/script.js"></script>
+</body>
+
+</html>
